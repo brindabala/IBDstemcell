@@ -14,8 +14,8 @@ rownames(counts) <- counts$GeneID
 mat <- counts[ , -1]
 
 # Load UC/CD cluster CSVs
-uc_clusters <- read.csv("data/UC_clusters.csv", check.names = FALSE)
-cd_clusters <- read.csv("data/CD_clusters.csv", check.names = FALSE)
+uc_clusters <- read.csv("data/UC_cluster_genes.csv", check.names = FALSE)
+cd_clusters <- read.csv("data/CD_clusters_genes.csv", check.names = FALSE)
 
 # Convert each cluster column into a gene vector (remove empty cells, NA)
 uc_cluster_lists <- lapply(uc_clusters, function(col) col[!is.na(col) & col != ""])

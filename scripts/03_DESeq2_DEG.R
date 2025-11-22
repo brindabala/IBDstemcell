@@ -2,6 +2,7 @@
 # 03_DESeq2_DEG.R
 # ============================
 
+library(dplyr)
 library(DESeq2)
 library(tidyverse)
 library(EnhancedVolcano)
@@ -9,8 +10,12 @@ library(EnhancedVolcano)
 counts <- read.csv("data/counts_clean.csv")
 metadata <- read.csv("data/sample_metadata.csv")
 
-rownames(counts) <- counts$GeneID
-counts <- counts[ , -1]
+#Summarise data to average gene duplicates data so they can be set as rownames
+counts <- counts %>% group_by(GeneID) %>% summarise(across(everything(), sum))
+rownames <- counts$GeneID
+
+counts <- as.matrix(counts[ , -1])
+rownames(counts) <- rownames
 
 dds <- DESeqDataSetFromMatrix(
   countData = counts,
